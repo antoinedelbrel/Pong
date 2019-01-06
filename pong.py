@@ -1,25 +1,8 @@
 from tkinter import*
 from math import*
 
-
-fenetre = Tk()
-fenetre.title('pong')
-
 dx = 7
 dy = 7
-
-canvas = Canvas(fenetre, width = 725, height = 500, bg = 'black')
-
-button_quitter = Button(fenetre, text = 'Quitter', command = fenetre.destroy)
-
-
-
-#creation de la balle
-ball = canvas.create_oval(342.5,230,382.5,270, fill = 'red')
-
-#creation raquette
-raquette_droite = canvas.create_rectangle(725,200,700,300, fill = 'white')
-raquette_gauche = canvas.create_rectangle(25,200,0,300, fill = 'white')
 
 #mouvement de la balle
 def jouer():
@@ -37,33 +20,45 @@ def jouer():
             
         canvas.move(ball, dx, dy)
         fenetre.after(20, move_ball)           
-        
-            
+
+    canvas = Canvas(fenetre, width = 725, height = 500, bg = 'black')
+
+    #creation de la balle
+    ball = canvas.create_oval(342.5,230,382.5,270, fill = 'red')
+
+    #creation raquette
+    raquette_droite = canvas.create_rectangle(725,200,700,300, fill = 'white')
+    raquette_gauche = canvas.create_rectangle(25,200,0,300, fill = 'white')
+
+    #on fait bouger les raquettes
+    def droite_haut(event):
+        canvas.move(raquette_droite, 0, -10)
+
+    def droite_bas(event):
+        canvas.move(raquette_droite, 0, 10)
+    
+    def gauche_haut(event):
+        canvas.move(raquette_gauche, 0, -10)
+
+    def gauche_bas(event):
+        canvas.move(raquette_gauche, 0, 10)
+
+    canvas.bind_all('<Up>', droite_haut)
+    canvas.bind_all('<Down>', droite_bas)
+    canvas.bind_all('<a>', gauche_haut)
+    canvas.bind_all('<q>', gauche_bas)
+
+    canvas.pack()
+       
     move_ball()   
 
-    
-#on fait bouger les raquettes
-def droite_haut(event):
-    canvas.move(raquette_droite, 0, -10)
+fenetre = Tk()
+fenetre.title('pong')
 
-def droite_bas(event):
-    canvas.move(raquette_droite, 0, 10)
-   
-def gauche_haut(event):
-    canvas.move(raquette_gauche, 0, -10)
-
-def gauche_bas(event):
-    canvas.move(raquette_gauche, 0, 10)
-
-canvas.bind_all('<Up>', droite_haut)
-canvas.bind_all('<Down>', droite_bas)
-canvas.bind_all('<a>', gauche_haut)
-canvas.bind_all('<q>', gauche_bas)
+button_quitter = Button(fenetre, text = 'Quitter', command = fenetre.destroy)
 
 
 button_quitter.pack()
-
-canvas.pack()
 
 button_jouer = Button(fenetre, text = 'Jouer', command = jouer)
 button_jouer.pack()
